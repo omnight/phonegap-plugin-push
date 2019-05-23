@@ -292,7 +292,9 @@
             if ([[UIApplication sharedApplication]respondsToSelector:@selector(registerUserNotificationSettings:)]) {
                 UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UserNotificationTypes categories:categories];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+                    if([badgeArg boolValue] || [soundArg boolValue] || [alertArg boolValue]) {
+                      [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+                    }
                     [[UIApplication sharedApplication] registerForRemoteNotifications];
                 });
             }
