@@ -662,13 +662,21 @@
         switch (settings.authorizationStatus) {
             case UNAuthorizationStatusNotDetermined:
             {
-                [weakCenter requestAuthorizationWithOptions:authorizationOptions completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                    if (granted) {
-                        [self performSelectorOnMainThread:@selector(registerForRemoteNotifications)
-                                               withObject:nil
-                                            waitUntilDone:NO];
-                    }
-                }];
+                if (authorizationOptions == 0) {
+                    [self performSelectorOnMainThread:@selector(registerForRemoteNotifications)
+                                           withObject:nil
+                                        waitUntilDone:NO];
+                } else {
+                    [weakCenter requestAuthorizationWithOptions:authorizationOptions completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                        if (granted) {
+                            [self performSelectorOnMainThread:@selector(registerForRemoteNotifications)
+                                                   withObject:nil
+                                                waitUntilDone:NO];
+                        }
+                    }];
+                }
+                
+
                 break;
             }
             case UNAuthorizationStatusAuthorized:
